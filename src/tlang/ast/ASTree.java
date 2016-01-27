@@ -7,7 +7,5 @@ public abstract class ASTree implements Iterable<ASTree> {
 	public abstract int numChildren();
 	public abstract Iterator<ASTree> children();
 	public abstract String location();
-	public Iterator<ASTree> iterator() {
-		return children();
-	}
+	public Iterator<ASTree> iterator() { return children(); }
 }

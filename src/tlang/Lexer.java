@@ -71,7 +71,7 @@ public class Lexer {
     protected void addToken(int lineNo, Matcher matcher) {
         String m = matcher.group(1);
         if (m != null) // if not a space; m is the first pattern in the regexPat
-            if (matcher.group(2) == null) { // if not a comment; m is the second pattern, //
+            if (matcher.group(2) == null) { // if not a comment; m is the second pattern
                 Token token;
                 if (matcher.group(3) != null)
                     token = new NumToken(lineNo, Integer.parseInt(m));
