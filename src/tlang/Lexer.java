@@ -7,9 +7,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lexer {
+	
+	//The regular expression of number, string and operators including <= => || &&
     public static String regexPat
         = "\\s*((//.*)|([0-9]+)|(\"(\\\\\"|\\\\\\\\|\\\\n|[^\"])*\")"
           + "|[A-Z_a-z][A-Z_a-z0-9]*|==|<=|>=|&&|\\|\\||\\p{Punct})?";
+    
     private Pattern pattern = Pattern.compile(regexPat);
     private ArrayList<Token> queue = new ArrayList<Token>();
     private boolean hasMore;
@@ -19,12 +22,14 @@ public class Lexer {
         hasMore = true;
         reader = new LineNumberReader(r);
     }
+    
     public Token read() throws ParseException {
         if (fillQueue(0))
             return queue.remove(0);
         else
             return Token.EOF;
     }
+    
     public Token peek(int i) throws ParseException {
         if (fillQueue(i))
             return queue.get(i);
