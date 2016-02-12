@@ -22,21 +22,28 @@ public class BasicParser {
 	Operators operators = new Operators();
 	Parser expr0 = rule();
 
+	/**
+	 * primary : either a primary expression class, or
+	 *	 Primary "(" expr ")" | number | identifier | string
+	 */
+	
 	Parser primary = rule(PrimaryExpr.class)
 					.or(rule().sep("(").ast(expr0).sep(")"),
 						rule().number(NumberLiteral.class),
 						rule().identifier(Name.class, reserved),
 						rule().string(StringLiteral.class));
-	/**primary : either a primary expression class, or
-	*			 Primary "(" expr ")" | number | identifier | string
-	*/
 	
-	Parser factor = rule().or(rule(NegativeExpr.class).sep("-").ast(primary), primary);
-	/**factor: a negative primary expression ( when it is a number ), or a primary expression
-	 *
+	/**
+	 * factor: a negative primary expression ( when it is a number ), or a primary expression
 	 */
 	
+	Parser factor = rule().or(rule(NegativeExpr.class).sep("-").ast(primary), primary);
+	
+	/**
+	 * expression : factor or a operator + factor
+	 */
 	Parser expr = expr0.expression(BinaryExpr.class, factor, operators);
+	
 	
 	Parser statement0 =  rule();
 	
