@@ -1,8 +1,6 @@
 package tlang;
 import java.io.IOException;
 
-import javax.tools.DocumentationTool.Location;
-
 public class ParseException extends IOException {
 	
 	public ParseException(String msg, Token t) {

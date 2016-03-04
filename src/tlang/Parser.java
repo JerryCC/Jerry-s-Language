@@ -1,4 +1,3 @@
-
 package tlang;
 
 import java.lang.reflect.Constructor;
@@ -7,17 +6,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-//
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-//
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import tlang.ast.ASTLeaf;
 import tlang.ast.ASTList;
 import tlang.ast.ASTree;
 
 public class Parser {
 	
-//	private Log log = LogFactory.getLog(Parser.class);
+	private Log log = LogFactory.getLog(Parser.class);
 	
 	/**
 	 * 
@@ -50,7 +49,7 @@ public class Parser {
 	 * 
 	 */
 	protected static class OrTree extends Element {
-	//	Log log = LogFactory.getLog(OrTree.class);
+		Log log = LogFactory.getLog(OrTree.class);
 		protected Parser[] parsers;
 		protected OrTree(Parser[] p) {
 			//for (Parser parser : p) {
@@ -184,27 +183,27 @@ public class Parser {
 	 * 
 	 */
 	protected static class Leaf extends Element {
-		//private Log log = LogFactory.getLog(Leaf.class);
+		private Log log = LogFactory.getLog(Leaf.class);
 		protected String[] tokens;
 		protected Leaf(String[] pat) {
-			//log.debug("pat=" + stringifyArray(pat));
+			log.debug("pat=" + stringifyArray(pat));
 			tokens = pat;
 		}
 		@Override
 		protected void parse(Lexer lexer, List<ASTree> res) throws ParseException {
 			Token t = lexer.read();
-//			if (t.isIdentifier()) {
-//				log.debug("t=\"" + t.getText() + "\" is an identifier");
-//				for (String token : tokens) {
-//					log.debug("token=\"" + token + "\", t.getText()=\"" + t.getText() + "\"");
-//					if (token.equals(t.getText())) {
-//						find(res, t);
-//						return;
-//					}
-//				}
-//			} else
-//				log.debug("t=" + t.getText() + " is NOT an identifier");
-//			
+			if (t.isIdentifier()) {
+				log.debug("t=\"" + t.getText() + "\" is an identifier");
+				for (String token : tokens) {
+					log.debug("token=\"" + token + "\", t.getText()=\"" + t.getText() + "\"");
+					if (token.equals(t.getText())) {
+						find(res, t);
+						return;
+					}
+				}
+			} else
+				log.debug("t=" + t.getText() + " is NOT an identifier");
+			
 			if (tokens.length > 0)
 				throw new ParseException(tokens[0] + " expected.", t);
 			else
@@ -243,10 +242,10 @@ public class Parser {
 	 * 
 	 */
 	protected static class Skip extends Leaf {
-		//private Log log = LogFactory.getLog(Skip.class);
+		private Log log = LogFactory.getLog(Skip.class);
 		protected Skip(String[] t) {
 			super(t);
-			//log.debug(stringifyArray(t));
+			log.debug(stringifyArray(t));
 		}
 		protected void find(List<ASTree> res, Token t) {}
 	}
@@ -407,7 +406,7 @@ public class Parser {
 	public ASTree parse(Lexer lexer) throws ParseException {
 		ArrayList<ASTree> results = new ArrayList<ASTree>();
 		for (Element e: elements) {
-			//log.debug("e=" + e.toString());
+			log.debug("e=" + e.toString());
 			e.parse(lexer, results);
 		}
 		return factory.make(results);
