@@ -15,6 +15,7 @@ import tlang.ast.NumberLiteral;
 import tlang.ast.NullStmnt;
 import tlang.ast.PrimaryExpr;
 import tlang.ast.StringLiteral;
+import tlang.ast.WhenStmnt;
 import tlang.ast.WhileStmnt;
 
 public class BasicParser {
@@ -63,11 +64,13 @@ public class BasicParser {
 	/**
 	 * statement : "if" expr block [ "else" block ]
 	 *           | "while" expr block
+	 *           | "when" expr block
 	 *           | simple  
 	 */
 	Parser statement = statement0.or(
 			rule(IfStmnt.class).sep("if").ast(expr).ast(block)
 						.option(rule().sep("else").ast(block)),
+			rule(WhenStmnt.class).sep("when").ast(expr).ast(block),
 			rule(WhileStmnt.class).sep("while").ast(expr).ast(block),
 			simple);
 	
